@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_seminar_search/constants.dart';
 import 'package:flutter_seminar_search/features/api_calls/host_provider.dart';
+import 'package:flutter_seminar_search/imageConverter.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,12 +20,16 @@ class _PageTwoState extends State<HostPageTwo> {
   void initState() {
     super.initState();
     Provider.of<HostProfileProvider>(context, listen: false).fetchFaculties();
-    Provider.of<HostProfileProvider>(context, listen: false).fetchQualifications();
+    Provider.of<HostProfileProvider>(context, listen: false)
+        .fetchQualifications();
   }
 
   Future<void> _createHostProfile() async {
     final hostProfileProvider =
         Provider.of<HostProfileProvider>(context, listen: false);
+
+    String? base64ProfilePic =
+        await imageToBase64(hostProfileProvider.hostProfile.profilePic);
 
     const String createHostEndpoint = '/host/create';
     final String apiUrl = '${ApiConstants.baseUrl}$createHostEndpoint';
@@ -40,9 +46,11 @@ class _PageTwoState extends State<HostPageTwo> {
             .hostProfile.selectedFaculty?.id, // Use selectedFaculty
         'Qualifications':
             hostProfileProvider.hostProfile.selectedQualifiction?.id,
-        'Years_of_Experience': int.parse(hostProfileProvider.hostProfile.yearsOfExperience.text), //PLEASE DOUBLE CHECK THIS!! IT MIGHT NEED TO BE AN INTEGER
-        'Profile_pic': hostProfileProvider
-            .hostProfile.profilePic.text, // Assuming profilePic is a string
+        'Years_of_Experience': int.parse(hostProfileProvider
+            .hostProfile
+            .yearsOfExperience
+            .text), //PLEASE DOUBLE CHECK THIS!! IT MIGHT NEED TO BE AN INTEGER
+        'Profile_pic': base64ProfilePic, // Assuming profilePic is a string
       }),
     );
 
@@ -120,9 +128,44 @@ class _PageTwoState extends State<HostPageTwo> {
                 FilteringTextInputFormatter.digitsOnly
               ],
             ),
-            TextFormField(
-              controller: hostProfileProvider.hostProfile.profilePic,
-              decoration: InputDecoration(labelText: 'Profile Picture'),
+            FutureBuilder<File?>(
+              future: Future.value(hostProfileProvider.hostProfile.profilePic),
+              builder: (context, snapshot) {
+                print('Connection state: ${snapshot.connectionState}');
+                print('Data: ${snapshot.data}');
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(); // Show a loading indicator while loading the image
+                } else if (snapshot.hasError) {
+                  print('Error: ${snapshot.error}');
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  File? imageFile = snapshot.data;
+                  return imageFile != null
+                      ? Container(
+                          width: 150,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Image.file(
+                            imageFile,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Container();
+                } else {
+                  return Text('No image selected');
+                }
+              },
+            ),
+            SizedBox(height: 20), // Add some spacing
+            ElevatedButton(
+              onPressed: () {
+                HostProfileProvider hostProfileProvider =
+                    Provider.of<HostProfileProvider>(context, listen: false);
+                hostProfileProvider.pickImage(hostProfileProvider.hostProfile);
+              },
+              child: Text('Upload Profile Picture'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -131,7 +174,7 @@ class _PageTwoState extends State<HostPageTwo> {
 
                 // TODO: Submit the user profile data to your API
                 print(
-                    'Submitting user profile: ${hostProfile.fNameController.text}, ${hostProfile.lNameController.text}, ${hostProfile.emailController.text}, ${hostProfile.passwordController.text}, ${hostProfile.selectedFaculty}');
+                    'Submitting user profile: ${hostProfile.fNameController.text}, ${hostProfile.lNameController.text}, ${hostProfile.emailController.text}, ${hostProfile.passwordController.text}, ${hostProfile.selectedFaculty}, ${hostProfile.profilePic}');
               },
               child: Text('Submit'),
             ),

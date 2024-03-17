@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_seminar_search/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class Faculty {
   int id;
@@ -23,7 +25,7 @@ class HostProfile {
   TextEditingController lNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController profilePic = TextEditingController();
+  File? profilePic;
   TextEditingController yearsOfExperience = TextEditingController();
 
   List<Qualifications> qualifications;
@@ -100,10 +102,21 @@ class HostProfileProvider extends ChangeNotifier {
         _hostProfile.qualifications = fetchedQualifications;
         notifyListeners();
       } else {
-        print("Error fetching qualifications. Status code: ${response.statusCode}");
+        print(
+            "Error fetching qualifications. Status code: ${response.statusCode}");
       }
     } catch (error) {
       print("Error fetching qualifications: $error");
+    }
+  }
+
+  Future<void> pickImage(HostProfile hostProfile) async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery); // or ImageSource.camera
+    if (image != null) {
+      hostProfile.profilePic = File(image.path);
+      // Do something with the selected image file, like displaying it in the UI or uploading it
     }
   }
 }

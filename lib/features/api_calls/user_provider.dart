@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_seminar_search/features/api_calls/user_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_seminar_search/constants.dart';
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 
 class Faculty {
   int id;
@@ -17,7 +20,7 @@ class UserProfile {
   TextEditingController lNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController profilePic = TextEditingController();
+  File? profilePic;
   List<Faculty> faculties;
   Faculty? selectedFaculty;
 
@@ -67,4 +70,14 @@ class UserProfileProvider extends ChangeNotifier {
       print("Error fetching faculties: $error");
     }
   }
+
+  Future<void> pickImage(UserProfile userProfile) async {
+  final ImagePicker _picker = ImagePicker();
+  final XFile? image = await _picker.pickImage(source: ImageSource.gallery); // or ImageSource.camera
+  if (image != null) {
+    userProfile.profilePic = File(image.path);
+    // Do something with the selected image file, like displaying it in the UI or uploading it
+  }
+}
+
 }

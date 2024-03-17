@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_seminar_search/constants.dart';
 import 'package:flutter_seminar_search/features/api_calls/user_provider.dart';
+import 'package:flutter_seminar_search/imageConverter.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,9 +25,12 @@ class _PageTwoState extends State<PageTwo> {
     final userProfileProvider =
         Provider.of<UserProfileProvider>(context, listen: false);
 
+    String? base64ProfilePic =
+        await imageToBase64(userProfileProvider.userProfile.profilePic);
+
     const String createUserEndpoint = '/user/create';
     final String apiUrl = '${ApiConstants.baseUrl}$createUserEndpoint';
-    
+
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: {'Content-Type': 'application/json'},
@@ -34,8 +39,9 @@ class _PageTwoState extends State<PageTwo> {
         'Last_Name': userProfileProvider.userProfile.lNameController.text,
         'Email': userProfileProvider.userProfile.emailController.text,
         'Password': userProfileProvider.userProfile.passwordController.text,
-        'Faculty': userProfileProvider.userProfile.selectedFaculty?.id, // Use selectedFaculty
-        'Profile_pic': userProfileProvider.userProfile.profilePic.text, // Assuming profilePic is a string
+        'Faculty': userProfileProvider
+            .userProfile.selectedFaculty?.id, // Use selectedFaculty
+        'Profile_pic': base64ProfilePic, // Assuming profilePic is a string
       }),
     );
 
@@ -52,7 +58,6 @@ class _PageTwoState extends State<PageTwo> {
   Widget build(BuildContext context) {
     final userProfileProvider = Provider.of<UserProfileProvider>(context);
     final UserProfile userProfile = userProfileProvider.userProfile;
-    const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
     return Scaffold(
       body: Center(
@@ -74,26 +79,59 @@ class _PageTwoState extends State<PageTwo> {
                   userProfileProvider.userProfile.selectedFaculty = value!;
                 });
               },
-              items: userProfileProvider.userProfile.faculties.map<DropdownMenuItem<Faculty>>((Faculty value) {
+              items: userProfileProvider.userProfile.faculties
+                  .map<DropdownMenuItem<Faculty>>((Faculty value) {
                 return DropdownMenuItem<Faculty>(
                   value: value,
                   child: Text(value.name),
                 );
               }).toList(),
             ),
-
-            TextFormField(
-              controller: userProfileProvider.userProfile.profilePic,
-              decoration: InputDecoration(labelText: 'Profile Picture'),
+            FutureBuilder<File?>(
+              future: Future.value(userProfileProvider.userProfile.profilePic),
+              builder: (context, snapshot) {
+                print('Connection state: ${snapshot.connectionState}');
+                print('Data: ${snapshot.data}');
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(); // Show a loading indicator while loading the image
+                } else if (snapshot.hasError) {
+                  print('Error: ${snapshot.error}');
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  File? imageFile = snapshot.data;
+                  return imageFile != null
+                      ? Container(
+                          width: 150,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Image.file(
+                            imageFile,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Container();
+                } else {
+                  return Text('No image selected');
+                }
+              },
+            ),
+            SizedBox(height: 20), // Add some spacing
+            ElevatedButton(
+              onPressed: () {
+                UserProfileProvider userProfileProvider =
+                    Provider.of<UserProfileProvider>(context, listen: false);
+                userProfileProvider.pickImage(userProfileProvider.userProfile);
+              },
+              child: Text('Upload Profile Picture'),
             ),
             ElevatedButton(
               onPressed: () {
-                // Get the final user profile data
                 _createUserProfile();
 
-                // TODO: Submit the user profile data to your API
                 print(
-                    'Submitting user profile: ${userProfile.fNameController.text}, ${userProfile.lNameController.text}, ${userProfile.emailController.text}, ${userProfile.passwordController.text}, ${userProfile.selectedFaculty}');
+                    'Submitting user profile: ${userProfile.fNameController.text}, ${userProfile.lNameController.text}, ${userProfile.emailController.text}, ${userProfile.passwordController.text}, ${userProfile.selectedFaculty}, ${userProfile.profilePic}');
               },
               child: Text('Submit'),
             ),
