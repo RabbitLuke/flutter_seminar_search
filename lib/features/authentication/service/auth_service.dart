@@ -16,19 +16,19 @@ class AuthService {
   void _setupInterceptors() {
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        log(options.data.toString(), name: 'onRequest');
+        //log(options.data.toString(), name: 'onRequest');
         final accessToken =
             await storage.read(key: ApiConstants.accessTokenKey);
         options.headers['Authorization'] = 'Bearer $accessToken';
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        log(response.toString(), name: 'onResponse');
+        //log(response.toString(), name: 'onResponse');
         return handler.next(response);
       },
       onError: (DioError error, handler) async {
         // Check for token expired error
-        log(error.toString(), name: 'onError');
+        //log(error.toString(), name: 'onError');
         if (error.response?.statusCode == 401) {
           refreshAccessToken();
         }

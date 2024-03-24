@@ -14,7 +14,7 @@ class HostPageTwo extends StatefulWidget {
 }
 
 class _PageTwoState extends State<HostPageTwo> {
-  TextEditingController interestsController = TextEditingController();
+
 
   @override
   void initState() {

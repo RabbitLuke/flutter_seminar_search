@@ -17,6 +17,7 @@ dependencies:
   http: ^1.2.1
   jwt_decoder: ^2.0.1
   image_picker: ^0.8.1
+  datetime_picker_formfield: ^2.0.0
 
 dev_dependencies:
   flutter_test:
