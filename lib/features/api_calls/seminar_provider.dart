@@ -36,6 +36,11 @@ class Faculty {
 
 class SeminarProfile {
   TextEditingController seminarTitle = TextEditingController();
+
+  void setSeminarTitle(String value) {
+    seminarTitle.text = value;
+  }
+
   TextEditingController seminarDuration = TextEditingController();
   TextEditingController seminarDate = TextEditingController();
   TextEditingController seminarLocation = TextEditingController();

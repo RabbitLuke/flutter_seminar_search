@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_seminar_search/constants.dart';
 import 'package:flutter_seminar_search/features/api_calls/seminar_provider.dart';
+import 'package:flutter_seminar_search/features/home/ui/hostView.dart';
 import 'package:flutter_seminar_search/imageConverter.dart';
 import 'package:provider/provider.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -55,9 +56,21 @@ class _PageTwoState extends State<SeminarPageTwo> {
     if (response.statusCode == 201) {
       // User profile created successfully
       print("Seminar created successfully");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Seminar created successfully'),
+          duration: Duration(seconds: 2), // Adjust the duration as needed
+        ),
+      );
     } else {
       // Error in creating user profile
       print("Error creating seminar Status code: ${response.statusCode}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error creating seminar. Please try again.'),
+          duration: Duration(seconds: 2), // Adjust the duration as needed
+        ),
+      );
     }
   }
 
@@ -198,6 +211,25 @@ class _PageTwoState extends State<SeminarPageTwo> {
               },
               child: Text('Save Seminar'),
             ),
+            ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WelcomePageHost()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 233, 233, 233),
+                      minimumSize: Size(200, 50),
+                      maximumSize: Size(200, 50),
+                    ),
+                    child: Text(
+                      'Return Home',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),

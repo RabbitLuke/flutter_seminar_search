@@ -14,7 +14,10 @@ class SeminarPageOne extends StatelessWidget {
           children: [
             TextFormField(
               controller: seminarProvider.seminarProfile.seminarTitle,
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: InputDecoration(
+                labelText: 'Title'
+              ),
+              maxLength: 100,
             ),
             TextFormField(
               controller: seminarProvider.seminarProfile.seminarDuration,
