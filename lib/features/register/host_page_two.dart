@@ -122,7 +122,7 @@ class _PageTwoState extends State<HostPageTwo> {
             ),
             TextFormField(
               controller: hostProfileProvider.hostProfile.yearsOfExperience,
-              decoration: InputDecoration(labelText: 'Years of Experience'),
+              decoration: const InputDecoration(labelText: 'Years of Experience'),
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
@@ -134,7 +134,7 @@ class _PageTwoState extends State<HostPageTwo> {
                 print('Connection state: ${snapshot.connectionState}');
                 print('Data: ${snapshot.data}');
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(); // Show a loading indicator while loading the image
+                  return const CircularProgressIndicator(); // Show a loading indicator while loading the image
                 } else if (snapshot.hasError) {
                   print('Error: ${snapshot.error}');
                   return Text('Error: ${snapshot.error}');
@@ -154,18 +154,18 @@ class _PageTwoState extends State<HostPageTwo> {
                         )
                       : Container();
                 } else {
-                  return Text('No image selected');
+                  return const Text('No image selected');
                 }
               },
             ),
-            SizedBox(height: 20), // Add some spacing
+            const SizedBox(height: 20), // Add some spacing
             ElevatedButton(
               onPressed: () {
                 HostProfileProvider hostProfileProvider =
                     Provider.of<HostProfileProvider>(context, listen: false);
                 hostProfileProvider.pickImage(hostProfileProvider.hostProfile);
               },
-              child: Text('Upload Profile Picture'),
+              child: const Text('Upload Profile Picture'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -176,7 +176,7 @@ class _PageTwoState extends State<HostPageTwo> {
                 print(
                     'Submitting user profile: ${hostProfile.fNameController.text}, ${hostProfile.lNameController.text}, ${hostProfile.emailController.text}, ${hostProfile.passwordController.text}, ${hostProfile.selectedFaculty}, ${hostProfile.profilePic}');
               },
-              child: Text('Submit'),
+              child: const Text('Submit'),
             ),
           ],
         ),

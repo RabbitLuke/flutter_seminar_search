@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
         BlocProvider<AuthBloc>(create: (context) => AuthBloc(AuthService())),
         // Add more providers if needed
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         home: LoginComponent(),
       ),
     );

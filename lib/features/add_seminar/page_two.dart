@@ -57,7 +57,7 @@ class _PageTwoState extends State<SeminarPageTwo> {
       // User profile created successfully
       print("Seminar created successfully");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Seminar created successfully'),
           duration: Duration(seconds: 2), // Adjust the duration as needed
         ),
@@ -66,7 +66,7 @@ class _PageTwoState extends State<SeminarPageTwo> {
       // Error in creating user profile
       print("Error creating seminar Status code: ${response.statusCode}");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Error creating seminar. Please try again.'),
           duration: Duration(seconds: 2), // Adjust the duration as needed
         ),
@@ -117,7 +117,7 @@ class _PageTwoState extends State<SeminarPageTwo> {
                 );
               }).toList(),
             ),
-            Text(
+            const Text(
               'Select Seminar Date:',
               style: TextStyle(fontSize: 16.0),
             ),
@@ -133,18 +133,18 @@ class _PageTwoState extends State<SeminarPageTwo> {
                 );
                 return date;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'YYYY-MM-DD',
                 border: OutlineInputBorder(),
               ),
             ),
-            Text(
+            const Text(
               'Choose a start Time:',
               style: TextStyle(fontSize: 16.0),
             ),
             TextFormField(
               controller: seminarProvider.seminarProfile.seminarTime,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'HH:mm:ss',
                 border: OutlineInputBorder(),
               ),
@@ -156,7 +156,7 @@ class _PageTwoState extends State<SeminarPageTwo> {
                 print('Connection state: ${snapshot.connectionState}');
                 print('Data: ${snapshot.data}');
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(); // Show a loading indicator while loading the image
+                  return const CircularProgressIndicator(); // Show a loading indicator while loading the image
                 } else if (snapshot.hasError) {
                   print('Error: ${snapshot.error}');
                   return Text('Error: ${snapshot.error}');
@@ -176,20 +176,20 @@ class _PageTwoState extends State<SeminarPageTwo> {
                         )
                       : Container();
                 } else {
-                  return Text('No image selected');
+                  return const Text('No image selected');
                 }
               },
             ),
-            SizedBox(height: 20), // Add some spacing
+            const SizedBox(height: 20), // Add some spacing
             ElevatedButton(
               onPressed: () {
                 SeminarProvider seminarProvider =
                     Provider.of<SeminarProvider>(context, listen: false);
                 seminarProvider.pickImage(seminarProvider.seminarProfile);
               },
-              child: Text('Upload Profile Picture'),
+              child: const Text('Upload Profile Picture'),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
                 if (_validateTime(
@@ -202,14 +202,14 @@ class _PageTwoState extends State<SeminarPageTwo> {
                 } else {
                   // Time input is invalid, show error message
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Please enter a valid time')),
+                    const SnackBar(content: Text('Please enter a valid time')),
                   );
                 }
                 _createSeminar();
                 print(
                     'Submitting user profile: ${seminarProfile.seminarTitle.text}, ${seminarProfile.seminarNo_of_seats.text}, ${seminarProfile.seminarLocation.text}, ${seminarProfile.seminarTime.text}, ${seminarProfile.seminarDate.text}, ${seminarProfile.seminarDuration.text}');
               },
-              child: Text('Save Seminar'),
+              child: const Text('Save Seminar'),
             ),
             ElevatedButton(
                     onPressed: () {
@@ -219,11 +219,11 @@ class _PageTwoState extends State<SeminarPageTwo> {
                               builder: (context) => WelcomePageHost()));
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 233, 233, 233),
-                      minimumSize: Size(200, 50),
-                      maximumSize: Size(200, 50),
+                      backgroundColor: const Color.fromARGB(255, 233, 233, 233),
+                      minimumSize: const Size(200, 50),
+                      maximumSize: const Size(200, 50),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Return Home',
                       style: TextStyle(
                         color: Colors.black,

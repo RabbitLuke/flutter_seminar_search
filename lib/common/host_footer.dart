@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_seminar_search/features/add_seminar/page_one.dart';
+import 'package:flutter_seminar_search/features/api_calls/host_provider.dart';
 
 class HostFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFF3E3A7A),
+      color: const Color(0xFF3E3A7A),
       height: 50, // Adjust the height according to your design
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
-            icon: Icon(Icons.book),
+            icon: const Icon(Icons.book),
             onPressed: () {
               // Handle book icon tap
             },
@@ -18,17 +20,17 @@ class HostFooter extends StatelessWidget {
           ),
 
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
-              // Handle book icon tap
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SeminarPageOne()));
             },
             color: Colors.white,
           ),
 
           IconButton(
-            icon: Icon(Icons.person),
+            icon: const Icon(Icons.person),
             onPressed: () {
-              // Handle person icon tap
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => HostProfile()));
             },
             color: Colors.white,
           ),

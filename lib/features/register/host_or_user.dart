@@ -12,12 +12,12 @@ class HostOrUser extends StatelessWidget {
     return Scaffold(
         body: Container(
             alignment: Alignment.topCenter,
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 100),
-                  Text(
+                  const SizedBox(height: 100),
+                  const Text(
                     'Lets get started!',
                     style: TextStyle(
                       color: Color(0xFF3E3A7A),
@@ -25,8 +25,8 @@ class HostOrUser extends StatelessWidget {
                       fontStyle: FontStyle.italic,
                     ),
                   ),
-                  SizedBox(height: 60),
-                  Text(
+                  const SizedBox(height: 60),
+                  const Text(
                     'I am looking to...',
                     style: TextStyle(
                       fontSize: 20,
@@ -34,56 +34,56 @@ class HostOrUser extends StatelessWidget {
                       color: Color(0xFF3E3A7A),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => PageOne()));
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF3E3A7A),
-                      minimumSize: Size(300, 50),
-                      maximumSize: Size(300, 50),
+                      backgroundColor: const Color(0xFF3E3A7A),
+                      minimumSize: const Size(300, 50),
+                      maximumSize: const Size(300, 50),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Find a Seminar',
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HostPageOne()));
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF3E3A7A),
-                      minimumSize: Size(300, 50),
-                      maximumSize: Size(300, 50),
+                      backgroundColor: const Color(0xFF3E3A7A),
+                      minimumSize: const Size(300, 50),
+                      maximumSize: const Size(300, 50),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Host a Seminar',
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  SizedBox(height: 160),
+                  const SizedBox(height: 160),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LoginComponent()));
+                              builder: (context) => const LoginComponent()));
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 233, 233, 233),
-                      minimumSize: Size(200, 50),
-                      maximumSize: Size(200, 50),
+                      backgroundColor: const Color.fromARGB(255, 233, 233, 233),
+                      minimumSize: const Size(200, 50),
+                      maximumSize: const Size(200, 50),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Back',
                       style: TextStyle(
                         color: Colors.black,

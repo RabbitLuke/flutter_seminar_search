@@ -93,7 +93,7 @@ class _PageTwoState extends State<PageTwo> {
                 print('Connection state: ${snapshot.connectionState}');
                 print('Data: ${snapshot.data}');
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(); // Show a loading indicator while loading the image
+                  return const CircularProgressIndicator(); // Show a loading indicator while loading the image
                 } else if (snapshot.hasError) {
                   print('Error: ${snapshot.error}');
                   return Text('Error: ${snapshot.error}');
@@ -113,18 +113,18 @@ class _PageTwoState extends State<PageTwo> {
                         )
                       : Container();
                 } else {
-                  return Text('No image selected');
+                  return const Text('No image selected');
                 }
               },
             ),
-            SizedBox(height: 20), // Add some spacing
+            const SizedBox(height: 20), // Add some spacing
             ElevatedButton(
               onPressed: () {
                 UserProfileProvider userProfileProvider =
                     Provider.of<UserProfileProvider>(context, listen: false);
                 userProfileProvider.pickImage(userProfileProvider.userProfile);
               },
-              child: Text('Upload Profile Picture'),
+              child: const Text('Upload Profile Picture'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -133,7 +133,7 @@ class _PageTwoState extends State<PageTwo> {
                 print(
                     'Submitting user profile: ${userProfile.fNameController.text}, ${userProfile.lNameController.text}, ${userProfile.emailController.text}, ${userProfile.passwordController.text}, ${userProfile.selectedFaculty}, ${userProfile.profilePic}');
               },
-              child: Text('Submit'),
+              child: const Text('Submit'),
             ),
           ],
         ),

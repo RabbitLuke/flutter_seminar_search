@@ -17,7 +17,7 @@ class WelcomePage extends StatelessWidget {
       builder: (context, AsyncSnapshot<FacultySeminar> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While data is loading
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           // If an error occurred
           return Text('Error: ${snapshot.error}');
@@ -51,9 +51,9 @@ Widget build(BuildContext context) {
           children: [
             CustomHeader(),
             Text('Faculty: ${facultySeminar.faculty.facultyName}'),
-            SizedBox(height: 10),
-            Text('Seminars:'),
-            SizedBox(height: 5),
+            const SizedBox(height: 10),
+            const Text('Seminars:'),
+            const SizedBox(height: 5),
             Column(
               children: facultySeminar.seminars.map((seminar) {
                 Uint8List bytes = base64Decode(seminar.cover_photo);
@@ -82,7 +82,7 @@ Widget build(BuildContext context) {
                       ),
                       trailing: Text('Seats: ${seminar.no_of_seats}'),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 );
               }).toList(),

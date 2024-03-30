@@ -14,14 +14,14 @@ class SeminarPageOne extends StatelessWidget {
           children: [
             TextFormField(
               controller: seminarProvider.seminarProfile.seminarTitle,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Title'
               ),
               maxLength: 100,
             ),
             TextFormField(
               controller: seminarProvider.seminarProfile.seminarDuration,
-              decoration: InputDecoration(labelText: 'Duration'),
+              decoration: const InputDecoration(labelText: 'Duration'),
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
@@ -29,12 +29,12 @@ class SeminarPageOne extends StatelessWidget {
             ),
             TextFormField(
               controller: seminarProvider.seminarProfile.seminarLocation,
-              decoration: InputDecoration(labelText: 'Location'),
+              decoration: const InputDecoration(labelText: 'Location'),
             ),
             TextFormField(
               controller: seminarProvider.seminarProfile.seminarNo_of_seats,
               decoration:
-                  InputDecoration(labelText: 'Number of seats available'),
+                  const InputDecoration(labelText: 'Number of seats available'),
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
@@ -45,7 +45,7 @@ class SeminarPageOne extends StatelessWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SeminarPageTwo()));
               },
-              child: Text('Next'),
+              child: const Text('Next'),
             ),
           ],
         ),

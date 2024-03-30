@@ -29,20 +29,20 @@ class HostPageOne extends StatelessWidget {
             children: [
               TextFormField(
                 controller: hostProfileProvider.hostProfile.fNameController,
-                decoration: InputDecoration(labelText: 'First Name'),
+                decoration: const InputDecoration(labelText: 'First Name'),
               ),
               TextFormField(
                 controller: hostProfileProvider.hostProfile.lNameController,
-                decoration: InputDecoration(labelText: 'Last Name'),
+                decoration: const InputDecoration(labelText: 'Last Name'),
               ),
               TextFormField(
                 controller: hostProfileProvider.hostProfile.emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
                 validator: validateEmail,
               ),
               TextFormField(
                 controller: hostProfileProvider.hostProfile.passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
               ),
               ElevatedButton(
@@ -52,7 +52,7 @@ class HostPageOne extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => HostPageTwo()));
                   }
                 },
-                child: Text('Next'),
+                child: const Text('Next'),
               ),
             ],
           ),

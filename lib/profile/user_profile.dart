@@ -10,18 +10,18 @@ class LogoutPageUser extends StatelessWidget {
     final authBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Logout Page'),
+        title: const Text('Logout Page'),
       ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
             authBloc.authService.logout();
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginComponent()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginComponent()));
           },
-          child: Text('Log Out'),
+          child: const Text('Log Out'),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
-            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
           ),
         ),
       ),
