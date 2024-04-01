@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_seminar_search/constants.dart';
 import 'package:flutter_seminar_search/features/api_calls/host_provider.dart';
+import 'package:flutter_seminar_search/features/login/login_component.dart';
 import 'package:flutter_seminar_search/imageConverter.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -14,8 +15,6 @@ class HostPageTwo extends StatefulWidget {
 }
 
 class _PageTwoState extends State<HostPageTwo> {
-
-
   @override
   void initState() {
     super.initState();
@@ -54,9 +53,17 @@ class _PageTwoState extends State<HostPageTwo> {
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       // User profile created successfully
       print("User profile created successfully");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Account created successfully! Please log in!'),
+          duration: Duration(seconds: 5),
+        ),
+      );
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const LoginComponent()));
     } else {
       // Error in creating user profile
       print("Error creating user profile. Status code: ${response.statusCode}");
@@ -68,119 +75,213 @@ class _PageTwoState extends State<HostPageTwo> {
     final hostProfileProvider = Provider.of<HostProfileProvider>(context);
     final HostProfile hostProfile = hostProfileProvider.hostProfile;
 
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DropdownButton<Faculty>(
-              value: hostProfileProvider.hostProfile.selectedFaculty,
-              icon: const Icon(Icons.arrow_downward),
-              elevation: 16,
-              style: const TextStyle(color: Colors.deepPurple),
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (Faculty? value) {
-                // This is called when the user selects an item.
-                setState(() {
-                  hostProfileProvider.hostProfile.selectedFaculty = value!;
-                });
-              },
-              items: hostProfileProvider.hostProfile.faculties
-                  .map<DropdownMenuItem<Faculty>>((Faculty value) {
-                return DropdownMenuItem<Faculty>(
-                  value: value,
-                  child: Text(value.name),
-                );
-              }).toList(),
-            ),
-            DropdownButton<Qualifications>(
-              value: hostProfileProvider.hostProfile.selectedQualifiction,
-              icon: const Icon(Icons.arrow_downward),
-              elevation: 16,
-              style: const TextStyle(color: Colors.deepPurple),
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (Qualifications? value) {
-                // This is called when the user selects an item.
-                setState(() {
-                  hostProfileProvider.hostProfile.selectedQualifiction = value!;
-                });
-              },
-              items: hostProfileProvider.hostProfile.qualifications
-                  .map<DropdownMenuItem<Qualifications>>(
-                      (Qualifications value) {
-                return DropdownMenuItem<Qualifications>(
-                  value: value,
-                  child: Text(value.name),
-                );
-              }).toList(),
-            ),
-            TextFormField(
-              controller: hostProfileProvider.hostProfile.yearsOfExperience,
-              decoration: const InputDecoration(labelText: 'Years of Experience'),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-            ),
-            FutureBuilder<File?>(
-              future: Future.value(hostProfileProvider.hostProfile.profilePic),
-              builder: (context, snapshot) {
-                print('Connection state: ${snapshot.connectionState}');
-                print('Data: ${snapshot.data}');
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator(); // Show a loading indicator while loading the image
-                } else if (snapshot.hasError) {
-                  print('Error: ${snapshot.error}');
-                  return Text('Error: ${snapshot.error}');
-                } else if (snapshot.hasData) {
-                  File? imageFile = snapshot.data;
-                  return imageFile != null
-                      ? Container(
-                          width: 150,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                          ),
-                          child: Image.file(
-                            imageFile,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : Container();
-                } else {
-                  return const Text('No image selected');
-                }
-              },
-            ),
-            const SizedBox(height: 20), // Add some spacing
-            ElevatedButton(
-              onPressed: () {
-                HostProfileProvider hostProfileProvider =
-                    Provider.of<HostProfileProvider>(context, listen: false);
-                hostProfileProvider.pickImage(hostProfileProvider.hostProfile);
-              },
-              child: const Text('Upload Profile Picture'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Get the final user profile data
-                _createHostProfile();
-
-                // TODO: Submit the user profile data to your API
-                print(
-                    'Submitting user profile: ${hostProfile.fNameController.text}, ${hostProfile.lNameController.text}, ${hostProfile.emailController.text}, ${hostProfile.passwordController.text}, ${hostProfile.selectedFaculty}, ${hostProfile.profilePic}');
-              },
-              child: const Text('Submit'),
-            ),
-          ],
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/seminar-search-background.png', // Replace with your image path
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
+        Scaffold(
+          backgroundColor:
+              Colors.transparent, // Make the scaffold background transparent
+          body: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Please select your faculty',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  DropdownButton<Faculty>(
+                    value: hostProfileProvider.hostProfile.selectedFaculty,
+                    icon: const Icon(Icons.arrow_downward),
+                    iconEnabledColor: Colors.red,
+                    elevation: 16,
+                    style: const TextStyle(color: Color(0xFF3E3A7A)),
+                    underline: Container(
+                      height: 0, // Remove the underline
+                    ),
+                    onChanged: (Faculty? value) {
+                      // This is called when the user selects an item.
+                      setState(() {
+                        hostProfileProvider.hostProfile.selectedFaculty =
+                            value!;
+                      });
+                    },
+                    items: hostProfileProvider.hostProfile.faculties
+                        .map<DropdownMenuItem<Faculty>>((Faculty value) {
+                      return DropdownMenuItem<Faculty>(
+                        value: value,
+                        child: Text(value.name),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Please select your highest qualification',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  DropdownButton<Qualifications>(
+                    icon: const Icon(Icons.arrow_downward),
+                    iconEnabledColor: Colors.red,
+                    elevation: 16,
+                    style: const TextStyle(color: Color(0xFF3E3A7A)),
+                    underline: Container(
+                      height: 0, // Remove the underline
+                    ),
+                    onChanged: (Qualifications? value) {
+                      // This is called when the user selects an item.
+                      setState(() {
+                        hostProfileProvider.hostProfile.selectedQualifiction =
+                            value!;
+                      });
+                    },
+                    items: hostProfileProvider.hostProfile.qualifications
+                        .map<DropdownMenuItem<Qualifications>>(
+                            (Qualifications value) {
+                      return DropdownMenuItem<Qualifications>(
+                        value: value,
+                        child: Text(value.name),
+                      );
+                    }).toList(),
+                  ),
+                  TextFormField(
+                    controller:
+                        hostProfileProvider.hostProfile.yearsOfExperience,
+                    style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white.withOpacity(0.9),
+                      hintText: 'Years of Experience',
+                      hintStyle: const TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
+                  ),
+                  FutureBuilder<File?>(
+                    future: Future.value(
+                        hostProfileProvider.hostProfile.profilePic),
+                    builder: (context, snapshot) {
+                      print('Connection state: ${snapshot.connectionState}');
+                      print('Data: ${snapshot.data}');
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator(); // Show a loading indicator while loading the image
+                      } else if (snapshot.hasError) {
+                        print('Error: ${snapshot.error}');
+                        return Text('Error: ${snapshot.error}');
+                      } else if (snapshot.hasData) {
+                        File? imageFile = snapshot.data;
+                        return imageFile != null
+                            ? Container(
+                                width: 150,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black),
+                                ),
+                                child: Image.file(
+                                  imageFile,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : Container();
+                      } else {
+                        return const Text('No image selected');
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      HostProfileProvider hostProfileProvider =
+                          Provider.of<HostProfileProvider>(context,
+                              listen: false);
+                      hostProfileProvider
+                          .pickImage(hostProfileProvider.hostProfile);
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromARGB(255, 255, 255, 255)),
+                      minimumSize:
+                          MaterialStateProperty.all<Size>(const Size(200, 50)),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                    ),
+                    child: const Text('Upload Profile Picture'),
+                  ),
+                  const SizedBox(height: 40),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Get the final user profile data
+                      _createHostProfile();
+
+                      // TODO: Submit the user profile data to your API
+                      print(
+                          'Submitting user profile: ${hostProfile.fNameController.text}, ${hostProfile.lNameController.text}, ${hostProfile.emailController.text}, ${hostProfile.passwordController.text}, ${hostProfile.selectedFaculty}, ${hostProfile.profilePic}');
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          const Color(0xFF3E3A7A)),
+                      minimumSize:
+                          MaterialStateProperty.all<Size>(const Size(300, 50)),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(fontSize: 16.0, color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromARGB(255, 255, 255, 255)),
+                      minimumSize:
+                          MaterialStateProperty.all<Size>(const Size(200, 50)),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Back',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

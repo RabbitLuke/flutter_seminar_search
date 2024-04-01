@@ -1,7 +1,7 @@
 // import necessary packages
 import 'dart:convert';
 import 'dart:typed_data';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_seminar_search/common/header.dart';
 import 'package:flutter_seminar_search/common/user_footer.dart';
@@ -43,9 +43,11 @@ class YourDisplayWidget extends StatelessWidget {
 
  @override
 Widget build(BuildContext context) {
+  DateTime currentDate = DateTime.now();
   return Stack(
     children: [
       SingleChildScrollView(
+        padding: EdgeInsets.only(bottom: 60),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -55,7 +57,12 @@ Widget build(BuildContext context) {
             const Text('Seminars:'),
             const SizedBox(height: 5),
             Column(
-              children: facultySeminar.seminars.map((seminar) {
+              children: facultySeminar.seminars
+                  .where((seminar) {
+                    DateTime seminarDate = DateFormat('yyyy-MM-dd').parse(seminar.date);
+                    return seminarDate.isAfter(currentDate) || seminarDate.isAtSameMomentAs(currentDate);
+                  })
+                  .map((seminar)  {
                 Uint8List bytes = base64Decode(seminar.cover_photo);
                 return Column(
                   children: [

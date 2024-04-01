@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_seminar_search/common/http_helper.dart';
 import 'package:flutter_seminar_search/features/api_calls/user_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_seminar_search/constants.dart';
@@ -13,6 +14,27 @@ class Faculty {
   String name;
 
   Faculty({required this.id, required this.name});
+}
+
+class UserInfo {
+  String firstName;
+  String lastName;
+  String emalAddress;
+  String profilePhoto;
+
+  UserInfo(
+      {required this.firstName,
+      required this.lastName,
+      required this.emalAddress,
+      required this.profilePhoto});
+
+  factory UserInfo.fromJson(Map<String, dynamic> json) {
+    return UserInfo(
+        firstName: json['First_Name'],
+        lastName: json['Last_Name'],
+        emalAddress: json['Email'],
+        profilePhoto: json['Profile_pic']);
+  }
 }
 
 class UserProfile {
@@ -72,12 +94,27 @@ class UserProfileProvider extends ChangeNotifier {
   }
 
   Future<void> pickImage(UserProfile userProfile) async {
-  final ImagePicker _picker = ImagePicker();
-  final XFile? image = await _picker.pickImage(source: ImageSource.gallery); // or ImageSource.camera
-  if (image != null) {
-    userProfile.profilePic = File(image.path);
-    // Do something with the selected image file, like displaying it in the UI or uploading it
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery); // or ImageSource.camera
+    if (image != null) {
+      userProfile.profilePic = File(image.path);
+      // Do something with the selected image file, like displaying it in the UI or uploading it
+    }
+  }
+
+  Future<UserInfo> fetchUserInfo() async {
+  try {
+    final response = await dio.get('/user/getuser');
+    if (response.statusCode == 200) {
+      return UserInfo.fromJson(response.data);
+    } else {
+      log("Error fetching user info. Status code: ${response.statusCode}");
+      throw Exception('Failed to fetch user info');
+    }
+  } catch (error) {
+    log("Error fetching user info: $error");
+    throw Exception('Failed to fetch user info');
   }
 }
-
 }
