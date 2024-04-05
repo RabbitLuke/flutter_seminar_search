@@ -14,7 +14,6 @@ class LoginComponent extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
           Positioned.fill(
             child: Image.asset(
               'assets/images/seminar-search-background.png',
@@ -46,7 +45,6 @@ class LoginComponent extends StatelessWidget {
 
                 ElevatedButton(
                   onPressed: () {
-                    // Add your login logic here
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
@@ -74,10 +72,9 @@ class LoginComponent extends StatelessWidget {
                   ),
                 ),
 
-                // Continue with Google Section
                 ElevatedButton(
                   onPressed: () {
-                    // Add your Google login logic here
+                    // Add Google login logic here
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 182, 182, 182),
@@ -124,11 +121,11 @@ class LoginComponent extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => const HostOrUser()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Background color
-                    foregroundColor: Colors.black, // Text color
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
                     side: const BorderSide(
                         color: Color(0xFF23DFFE),
-                        width: 2), // Border color and width
+                        width: 2),
                     minimumSize: const Size(200, 50),
                     maximumSize: const Size(200, 50),
                   ),

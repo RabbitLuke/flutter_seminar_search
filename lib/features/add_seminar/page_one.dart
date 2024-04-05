@@ -12,14 +12,12 @@ Widget build(BuildContext context) {
   return Scaffold(
     body: Stack(
       children: [
-        // Background Image
         Positioned.fill(
           child: Image.asset(
-            'assets/images/host-background.png', // Replace 'assets/background_image.jpg' with your image asset path
+            'assets/images/host-background.png',
             fit: BoxFit.cover,
           ),
         ),
-        // Content
         Center(
           child: SingleChildScrollView(
             child: Column(

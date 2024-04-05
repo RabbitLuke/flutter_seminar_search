@@ -10,15 +10,14 @@ class HostOrUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Background image
         Positioned.fill(
           child: Image.asset(
-            'assets/images/seminar-search-background.png', // Replace 'assets/background_image.jpg' with your image path
+            'assets/images/seminar-search-background.png',
             fit: BoxFit.cover,
           ),
         ),
         Scaffold(
-          backgroundColor: Colors.transparent, // Make scaffold transparent
+          backgroundColor: Colors.transparent,
           body: Container(
             alignment: Alignment.topCenter,
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),

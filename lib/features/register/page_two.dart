@@ -41,14 +41,12 @@ class _PageTwoState extends State<PageTwo> {
         'Last_Name': userProfileProvider.userProfile.lNameController.text,
         'Email': userProfileProvider.userProfile.emailController.text,
         'Password': userProfileProvider.userProfile.passwordController.text,
-        'Faculty': userProfileProvider
-            .userProfile.selectedFaculty?.id, // Use selectedFaculty
-        'Profile_pic': base64ProfilePic, // Assuming profilePic is a string
+        'Faculty': userProfileProvider.userProfile.selectedFaculty?.id,
+        'Profile_pic': base64ProfilePic,
       }),
     );
 
     if (response.statusCode == 201) {
-      // User profile created successfully
       print("User profile created successfully");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -59,7 +57,6 @@ class _PageTwoState extends State<PageTwo> {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const LoginComponent()));
     } else {
-      // Error in creating user profile
       print("Error creating user profile. Status code: ${response.statusCode}");
     }
   }
@@ -72,9 +69,8 @@ class _PageTwoState extends State<PageTwo> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
           Image.asset(
-            'assets/images/seminar-search-background.png', // Replace this with your image asset path
+            'assets/images/seminar-search-background.png',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -97,8 +93,7 @@ class _PageTwoState extends State<PageTwo> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20.0),
                       border: Border.all(
-                        color: const Color(
-                            0xFF3E3A7A), // Optional: Add border to match the underline color
+                        color: const Color(0xFF3E3A7A),
                       ),
                     ),
                     child: DropdownButton<Faculty>(
@@ -106,13 +101,11 @@ class _PageTwoState extends State<PageTwo> {
                       icon: const Icon(Icons.arrow_downward),
                       iconEnabledColor: Colors.red,
                       elevation: 16,
-                      style: const TextStyle(
-                          color: Color(0xFF3E3A7A)),
+                      style: const TextStyle(color: Color(0xFF3E3A7A)),
                       underline: Container(
-                        height: 0, // Remove the underline
+                        height: 0,
                       ),
                       onChanged: (Faculty? value) {
-                        // This is called when the user selects an item.
                         setState(() {
                           userProfileProvider.userProfile.selectedFaculty =
                               value!;
@@ -125,12 +118,9 @@ class _PageTwoState extends State<PageTwo> {
                           child: Text(value.name),
                         );
                       }).toList(),
-                      // Set background color here
-                      dropdownColor:
-                          Colors.white, // Change this color as needed
+                      dropdownColor: Colors.white,
                     ),
                   ),
-
                   const SizedBox(height: 40),
                   FutureBuilder<File?>(
                     future: Future.value(
@@ -163,7 +153,7 @@ class _PageTwoState extends State<PageTwo> {
                       }
                     },
                   ),
-                  const SizedBox(height: 30), // Add some spacing
+                  const SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: () {
                       UserProfileProvider userProfileProvider =

@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_seminar_search/common/http_helper.dart';
 import 'package:flutter_seminar_search/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_seminar_search/features/api_calls/dashboard_provider.dart';
+import 'package:dio/dio.dart';
+import 'dart:developer';
 
 class Seminars {
   int id;
@@ -82,10 +85,6 @@ class SeminarProvider extends ChangeNotifier {
                 cover_photo: seminar['cover_photo']))
             .toList();
 
-        // for (var faculty in fetchedSeminars) {
-        //   print(faculty.name);
-        // }
-        // _hostProfile.selectedFaculty = fetchedSeminars.first;
         _seminarProfile.seminars = fetchedSeminars;
         notifyListeners();
       } else {
@@ -102,7 +101,6 @@ class SeminarProvider extends ChangeNotifier {
         source: ImageSource.gallery); // or ImageSource.camera
     if (image != null) {
       seminarProfile.cover_photo = File(image.path);
-      // Do something with the selected image file, like displaying it in the UI or uploading it
     }
   }
 
@@ -133,5 +131,22 @@ class SeminarProvider extends ChangeNotifier {
     } catch (error) {
       print("Error fetching faculties: $error");
     }
+  }
+
+  Future<List<Seminar>> getSeminarByFaculty(int facultyId) async {
+    try {
+      final response = await dio.get('/seminar/getseminarbyfaculty/$facultyId');
+      if (response.statusCode == 200) {
+        List<Seminar> seminars = (response.data as List)
+            .map((seminar) => Seminar.fromJson(seminar))
+            .toList();
+        return seminars;
+      } else {
+        log("Error fetching seminars. Status code: ${response.statusCode}");
+      }
+    } catch (error) {
+      log("Error fetching seminars: $error");
+    }
+    return List.empty();
   }
 }

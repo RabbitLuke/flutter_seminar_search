@@ -42,19 +42,18 @@ class _PageTwoState extends State<HostPageTwo> {
         'Email': hostProfileProvider.hostProfile.emailController.text,
         'Password': hostProfileProvider.hostProfile.passwordController.text,
         'Faculty': hostProfileProvider
-            .hostProfile.selectedFaculty?.id, // Use selectedFaculty
+            .hostProfile.selectedFaculty?.id,
         'Qualifications':
             hostProfileProvider.hostProfile.selectedQualifiction?.id,
         'Years_of_Experience': int.parse(hostProfileProvider
             .hostProfile
             .yearsOfExperience
-            .text), //PLEASE DOUBLE CHECK THIS!! IT MIGHT NEED TO BE AN INTEGER
-        'Profile_pic': base64ProfilePic, // Assuming profilePic is a string
+            .text),
+        'Profile_pic': base64ProfilePic,
       }),
     );
 
     if (response.statusCode == 201) {
-      // User profile created successfully
       print("User profile created successfully");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -65,7 +64,6 @@ class _PageTwoState extends State<HostPageTwo> {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const LoginComponent()));
     } else {
-      // Error in creating user profile
       print("Error creating user profile. Status code: ${response.statusCode}");
     }
   }
@@ -79,13 +77,13 @@ class _PageTwoState extends State<HostPageTwo> {
       children: [
         Positioned.fill(
           child: Image.asset(
-            'assets/images/seminar-search-background.png', // Replace with your image path
+            'assets/images/seminar-search-background.png',
             fit: BoxFit.cover,
           ),
         ),
         Scaffold(
           backgroundColor:
-              Colors.transparent, // Make the scaffold background transparent
+              Colors.transparent,
           body: Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20.0),
@@ -107,10 +105,9 @@ class _PageTwoState extends State<HostPageTwo> {
                     elevation: 16,
                     style: const TextStyle(color: Color(0xFF3E3A7A)),
                     underline: Container(
-                      height: 0, // Remove the underline
+                      height: 0,
                     ),
                     onChanged: (Faculty? value) {
-                      // This is called when the user selects an item.
                       setState(() {
                         hostProfileProvider.hostProfile.selectedFaculty =
                             value!;
@@ -139,10 +136,9 @@ class _PageTwoState extends State<HostPageTwo> {
                     elevation: 16,
                     style: const TextStyle(color: Color(0xFF3E3A7A)),
                     underline: Container(
-                      height: 0, // Remove the underline
+                      height: 0,
                     ),
                     onChanged: (Qualifications? value) {
-                      // This is called when the user selects an item.
                       setState(() {
                         hostProfileProvider.hostProfile.selectedQualifiction =
                             value!;
@@ -183,7 +179,7 @@ class _PageTwoState extends State<HostPageTwo> {
                       print('Connection state: ${snapshot.connectionState}');
                       print('Data: ${snapshot.data}');
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator(); // Show a loading indicator while loading the image
+                        return const CircularProgressIndicator();
                       } else if (snapshot.hasError) {
                         print('Error: ${snapshot.error}');
                         return Text('Error: ${snapshot.error}');
@@ -232,10 +228,7 @@ class _PageTwoState extends State<HostPageTwo> {
                   const SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () {
-                      // Get the final user profile data
                       _createHostProfile();
-
-                      // TODO: Submit the user profile data to your API
                       print(
                           'Submitting user profile: ${hostProfile.fNameController.text}, ${hostProfile.lNameController.text}, ${hostProfile.emailController.text}, ${hostProfile.passwordController.text}, ${hostProfile.selectedFaculty}, ${hostProfile.profilePic}');
                     },

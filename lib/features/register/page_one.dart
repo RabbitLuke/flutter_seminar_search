@@ -21,10 +21,9 @@ class PageOne extends StatelessWidget {
 
     return Stack(
       children: [
-        // Background image
         Positioned.fill(
           child: Image.asset(
-            'assets/images/seminar-search-background.png', // Replace with your image path
+            'assets/images/seminar-search-background.png',
             fit: BoxFit.cover,
           ),
         ),
@@ -107,9 +106,7 @@ class PageOne extends StatelessWidget {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        // Validate the form
                         if (_formKey.currentState!.validate()) {
-                          // Move to the next page if validation succeeds
                           Navigator.push(
                               context,
                               MaterialPageRoute(

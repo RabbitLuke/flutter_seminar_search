@@ -16,23 +16,18 @@ class AuthService {
   void _setupInterceptors() {
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        //log(options.data.toString(), name: 'onRequest');
         final accessToken =
             await storage.read(key: ApiConstants.accessTokenKey);
         options.headers['Authorization'] = 'Bearer $accessToken';
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        //log(response.toString(), name: 'onResponse');
         return handler.next(response);
       },
       onError: (DioError error, handler) async {
-        // Check for token expired error
-        //log(error.toString(), name: 'onError');
         if (error.response?.statusCode == 401) {
           refreshAccessToken();
         }
-
         return handler.next(error);
       },
     ));
@@ -88,8 +83,6 @@ class AuthService {
         print('Failed to refresh access token: $e');
       }
     }
-
-    // Clear stored tokens if refresh token is invalid or refresh request fails
     await storage.delete(key: ApiConstants.accessTokenKey);
     await storage.delete(key: ApiConstants.refreshTokenKey);
     await storage.delete(key: ApiConstants.isHost);

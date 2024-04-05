@@ -4,16 +4,19 @@ class CustomHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF3E3A7A), // Set the background color to purple
+      color: const Color(0xFF3E3A7A),
       padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 24),
       child: Row(
         children: [
-          // Add your logo here
-          Image.asset('assets/images/Seminar_Search.png',width: 80,
-              height: 80,), // Adjust the path based on your project structure
-          const SizedBox(width: 30), // Add some space between logo and other content
+          Image.asset(
+            'assets/images/Seminar_Search.png',
+            width: 80,
+            height: 80,
+          ),
+          const SizedBox(
+              width: 30),
           const Text(
-            'Seminar Search', // Replace with your app name
+            'Seminar Search',
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,

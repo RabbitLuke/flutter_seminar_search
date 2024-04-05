@@ -8,7 +8,7 @@ import 'package:flutter_seminar_search/features/home/ui/hostView.dart';
 import 'package:flutter_seminar_search/imageConverter.dart';
 import 'package:provider/provider.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:intl/intl.dart'; // For date formatting
+import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class SeminarPageTwo extends StatefulWidget {
@@ -18,7 +18,6 @@ class SeminarPageTwo extends StatefulWidget {
 
 class _PageTwoState extends State<SeminarPageTwo> {
   final _dateFormat = DateFormat('yyyy-MM-dd');
-  final _timeFormat = DateFormat('HH:mm:ss');
   final RegExp _timeRegex = RegExp(
     r'^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$',
   );
@@ -51,28 +50,25 @@ class _PageTwoState extends State<SeminarPageTwo> {
         'Date': seminarProvider.seminarProfile.seminarDate.text,
         'Duration':
             int.parse(seminarProvider.seminarProfile.seminarDuration.text),
-        'facultyID': seminarProvider
-            .seminarProfile.selectedFaculty?.id, // Use selectedFaculty
-        'cover_photo': base64ProfilePic, // Assuming profilePic is a string
+        'facultyID': seminarProvider.seminarProfile.selectedFaculty?.id,
+        'cover_photo': base64ProfilePic,
       }),
     );
 
     if (response.statusCode == 201) {
-      // User profile created successfully
       print("Seminar created successfully");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Seminar created successfully'),
-          duration: Duration(seconds: 2), // Adjust the duration as needed
+          duration: Duration(seconds: 2),
         ),
       );
     } else {
-      // Error in creating user profile
       print("Error creating seminar Status code: ${response.statusCode}");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Error creating seminar. Please try again.'),
-          duration: Duration(seconds: 2), // Adjust the duration as needed
+          duration: Duration(seconds: 2),
         ),
       );
     }
@@ -85,7 +81,7 @@ class _PageTwoState extends State<SeminarPageTwo> {
     if (!_timeRegex.hasMatch(value)) {
       return 'Invalid time format. Please use HH:mm:ss';
     }
-    return null; // Return null if validation succeeds
+    return null;
   }
 
   @override
@@ -98,7 +94,7 @@ class _PageTwoState extends State<SeminarPageTwo> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/images/host-background.png', // Replace with your background image path
+              'assets/images/host-background.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -106,7 +102,7 @@ class _PageTwoState extends State<SeminarPageTwo> {
             top: 0,
             left: 0,
             right: 0,
-            child: CustomHeader(), // Your CustomHeader widget
+            child: CustomHeader(),
           ),
           Center(
             child: SingleChildScrollView(
@@ -117,11 +113,11 @@ class _PageTwoState extends State<SeminarPageTwo> {
                   const Text(
                     'Select Faculty:',
                     style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 15,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 15,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   DropdownButton<Faculty>(
                     value: seminarProvider.seminarProfile.selectedFaculty,
@@ -134,7 +130,6 @@ class _PageTwoState extends State<SeminarPageTwo> {
                       color: Colors.deepPurpleAccent,
                     ),
                     onChanged: (Faculty? value) {
-                      // This is called when the user selects an item.
                       setState(() {
                         seminarProvider.seminarProfile.selectedFaculty = value!;
                       });
@@ -151,11 +146,11 @@ class _PageTwoState extends State<SeminarPageTwo> {
                   const Text(
                     'Select seminar Date:',
                     style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 15,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 15,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   DateTimeField(
@@ -171,40 +166,40 @@ class _PageTwoState extends State<SeminarPageTwo> {
                       return date;
                     },
                     decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.9),
-                    hintText: 'YYYY-MM-DD',
-                    hintStyle: const TextStyle(color: Colors.black),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none,
+                      filled: true,
+                      fillColor: Colors.white.withOpacity(0.9),
+                      hintText: 'YYYY-MM-DD',
+                      hintStyle: const TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
-                  ),
                   ),
                   const SizedBox(height: 20),
                   const Text(
                     'Choose a start Time:',
                     style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 15,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 15,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: seminarProvider.seminarProfile.seminarTime,
                     style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.9),
-                    hintText: 'HH:mm:ss',
-                    hintStyle: const TextStyle(color: Colors.black),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white.withOpacity(0.9),
+                      hintText: 'HH:mm:ss',
+                      hintStyle: const TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
-                  ),
                     validator: _validateTime,
                   ),
                   FutureBuilder<File?>(
@@ -214,7 +209,7 @@ class _PageTwoState extends State<SeminarPageTwo> {
                       print('Connection state: ${snapshot.connectionState}');
                       print('Data: ${snapshot.data}');
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator(); // Show a loading indicator while loading the image
+                        return const CircularProgressIndicator();
                       } else if (snapshot.hasError) {
                         print('Error: ${snapshot.error}');
                         return Text('Error: ${snapshot.error}');
@@ -238,7 +233,7 @@ class _PageTwoState extends State<SeminarPageTwo> {
                       }
                     },
                   ),
-                  const SizedBox(height: 20), // Add some spacing
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       SeminarProvider seminarProvider =
@@ -264,12 +259,9 @@ class _PageTwoState extends State<SeminarPageTwo> {
                       if (_validateTime(seminarProvider
                               .seminarProfile.seminarTime.text) ==
                           null) {
-                        // Time input is valid, proceed with saving seminar
                         String selectedTime =
                             seminarProvider.seminarProfile.seminarTime.text;
-                        // Continue with saving the seminar...
                       } else {
-                        // Time input is invalid, show error message
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text('Please enter a valid time')),

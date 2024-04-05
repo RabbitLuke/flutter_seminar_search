@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_seminar_search/constants.dart';
 import 'package:http/http.dart' as http;
@@ -113,10 +112,9 @@ class HostProfileProvider extends ChangeNotifier {
   Future<void> pickImage(HostProfile hostProfile) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery); // or ImageSource.camera
+        source: ImageSource.gallery);
     if (image != null) {
       hostProfile.profilePic = File(image.path);
-      // Do something with the selected image file, like displaying it in the UI or uploading it
     }
   }
 }

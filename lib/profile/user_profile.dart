@@ -18,16 +18,12 @@ class UserProfilePage extends StatelessWidget {
           .fetchUserInfo(),
       builder: (context, AsyncSnapshot<UserInfo> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // While data is loading
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          // If an error occurred
           return Text('Error: ${snapshot.error}');
         } else {
-          // Data loaded successfully
           final userInfo = snapshot.data!;
           return Material(
-            // Wrap YourDisplayWidget with Material
             child: LogoutPageUser(userInfo: userInfo),
           );
         }
@@ -45,7 +41,6 @@ class LogoutPageUser extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthBloc>(context);
 
-    // Decode the base64 string for the profile photo
     Uint8List bytes = base64Decode(userInfo.profilePhoto);
 
     return Scaffold(
@@ -57,23 +52,20 @@ class LogoutPageUser extends StatelessWidget {
             Positioned.fill(
               child: Image.asset(
                 'assets/images/seminar-search-background.png',
-                fit: BoxFit.fill, // Change fit to BoxFit.fill
+                fit: BoxFit.fill,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  top: 150), // Adjust this value to move the content down
+              padding: const EdgeInsets.only(top: 150),
               child: SingleChildScrollView(
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Display user information
                       ClipOval(
                         child: Container(
                           width: 200,
-                          height:
-                              200, // Ensure width and height are equal for a perfect circle
+                          height: 200,
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: MemoryImage(bytes),
@@ -83,7 +75,6 @@ class LogoutPageUser extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      // Display user information
                       Text(
                         '${userInfo.firstName} ${userInfo.lastName}',
                         style: const TextStyle(
@@ -93,24 +84,24 @@ class LogoutPageUser extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text('${userInfo.emalAddress}',
-                      style: const TextStyle(
+                      Text(
+                        '${userInfo.emalAddress}',
+                        style: const TextStyle(
                           color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 28,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.bold,
-                        ),),
-                      const SizedBox(
-                          height:
-                              120), // Add space between user info and button
-                      // Logout button
+                        ),
+                      ),
+                      const SizedBox(height: 120),
                       ElevatedButton(
                         onPressed: () {
                           authBloc.authService.logout();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const LoginComponent()));
+                                  builder: (context) =>
+                                      const LoginComponent()));
                         },
                         child: const Text('Log Out'),
                         style: ElevatedButton.styleFrom(
@@ -133,7 +124,7 @@ class LogoutPageUser extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: UserFooter(), // Include the Footer widget here
+      bottomNavigationBar: UserFooter(),
     );
   }
 }

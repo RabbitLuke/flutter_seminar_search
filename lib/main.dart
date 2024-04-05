@@ -27,7 +27,6 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SeminarProvider()),
         ChangeNotifierProvider(create: (context) => SeminarProfileProvider()),
         BlocProvider<AuthBloc>(create: (context) => AuthBloc(AuthService())),
-        // Add more providers if needed
       ],
       child: const MaterialApp(
         home: LoginComponent(),

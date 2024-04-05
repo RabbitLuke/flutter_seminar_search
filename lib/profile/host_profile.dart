@@ -16,7 +16,10 @@ class HostProfilePage extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             authBloc.authService.logout();
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginComponent()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const LoginComponent()));
           },
           child: const Text('Log Out'),
           style: ElevatedButton.styleFrom(
@@ -25,7 +28,7 @@ class HostProfilePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: HostFooter(), // Include the Footer widget here
+      bottomNavigationBar: HostFooter(),
     );
   }
 }

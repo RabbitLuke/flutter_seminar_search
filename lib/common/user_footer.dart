@@ -7,7 +7,7 @@ class UserFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xFF3E3A7A),
-      height: 50, // Adjust the height according to your design
+      height: 50,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -22,7 +22,6 @@ class UserFooter extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              // Handle person icon tap
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => UserProfilePage()));
             },

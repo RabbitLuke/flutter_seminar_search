@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_seminar_search/common/http_helper.dart';
 import 'package:flutter_seminar_search/constants.dart';
@@ -96,7 +95,7 @@ class SeminarProfileProvider extends ChangeNotifier {
     }
     return FacultySeminar(
       faculty: Faculty(facultyName: '', facultyID: 0),
-      seminars: [], // Empty list of seminars
+      seminars: [],
     );
   }
 }

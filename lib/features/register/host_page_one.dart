@@ -23,13 +23,13 @@ class HostPageOne extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Image.asset(
-            'assets/images/seminar-search-background.png', // Replace with your image path
+            'assets/images/seminar-search-background.png',
             fit: BoxFit.cover,
           ),
         ),
         Scaffold(
           backgroundColor:
-              Colors.transparent, // Make the scaffold background transparent
+              Colors.transparent,
           body: Center(
             child: Form(
               key: _formKey,
@@ -50,7 +50,7 @@ class HostPageOne extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextFormField(
                     controller: hostProfileProvider.hostProfile.lNameController,
                     style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
@@ -65,7 +65,7 @@ class HostPageOne extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextFormField(
                     controller: hostProfileProvider.hostProfile.emailController,
                     style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
@@ -81,7 +81,7 @@ class HostPageOne extends StatelessWidget {
                     ),
                     validator: validateEmail,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextFormField(
                     controller:
                         hostProfileProvider.hostProfile.passwordController,
@@ -98,7 +98,7 @@ class HostPageOne extends StatelessWidget {
                     ),
                     obscureText: true,
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -124,14 +124,14 @@ class HostPageOne extends StatelessWidget {
                       style: TextStyle(fontSize: 16.0, color: Colors.white),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromARGB(255, 255, 255, 255)),
+                          const Color.fromARGB(255, 255, 255, 255)),
                       minimumSize:
                           MaterialStateProperty.all<Size>(const Size(200, 50)),
                       shape: MaterialStateProperty.all<OutlinedBorder>(

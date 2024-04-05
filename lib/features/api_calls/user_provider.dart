@@ -6,7 +6,6 @@ import 'package:flutter_seminar_search/features/api_calls/user_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_seminar_search/constants.dart';
 import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 
 class Faculty {
@@ -96,10 +95,9 @@ class UserProfileProvider extends ChangeNotifier {
   Future<void> pickImage(UserProfile userProfile) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery); // or ImageSource.camera
+        source: ImageSource.gallery);
     if (image != null) {
       userProfile.profilePic = File(image.path);
-      // Do something with the selected image file, like displaying it in the UI or uploading it
     }
   }
 

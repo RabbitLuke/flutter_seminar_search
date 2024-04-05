@@ -5,7 +5,7 @@ import 'package:flutter_seminar_search/constants.dart';
 import 'package:flutter_seminar_search/features/authentication/index.dart';
 import 'package:flutter_seminar_search/features/authentication/service/auth_service.dart';
 
-// Authentication State
+
 class AuthState {}
 
 class AuthInitial extends AuthState {}
@@ -28,13 +28,12 @@ class AuthLoginEvent extends AuthEvent {
 
 class AuthLogoutEvent extends AuthEvent {}
 
-// Authentication BLoC
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthService authService;
   final storage = const FlutterSecureStorage();
   AuthBloc(this.authService) : super(AuthInitial()) {
     on<AuthLoginEvent>((event, emit) async {
-      emit(AuthInitial()); // Show loading state
+      emit(AuthInitial());
 
       final isAuthenticated =
           await authService.authenticate(event.email, event.password);
